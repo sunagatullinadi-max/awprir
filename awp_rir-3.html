@@ -270,7 +270,7 @@ canvas:active{cursor:grabbing;}
   function tick(){
     requestAnimationFrame(tick);
     if(first){renderer.setSize(W(),H());camera.aspect=W()/H();camera.updateProjectionMatrix();first=false;}
-    if(auto) tRotY+=0.003;
+    if(auto) tRotY-=0.003;
     rY+=(tRotY-rY)*0.1; rX+=(tRotX-rX)*0.1; fv+=(tFov-fv)*0.1;
     group.rotation.y=rY; group.rotation.x=rX;
     camera.fov=fv; camera.updateProjectionMatrix();
