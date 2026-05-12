@@ -233,10 +233,23 @@ canvas:active{cursor:grabbing;}
   },{passive:false});
   canvas.addEventListener('touchend',function(){drag=false;tLock=null;});
 
-  var fov=36,tFov=36;
+  function baseFov(){
+    // На узком вертикальном экране (portrait mobile) отдаляем камеру
+    if(window.innerWidth<600 && window.innerHeight>window.innerWidth){
+      // Чем уже экран, тем больше FOV
+      return Math.min(72, 36 * (600 / window.innerWidth));
+    }
+    return 36;
+  }
+
+  var fov=baseFov(),tFov=baseFov();
   canvas.addEventListener('wheel',function(e){
-    tFov=Math.max(18,Math.min(65,tFov+e.deltaY*0.025));e.preventDefault();
+    tFov=Math.max(18,Math.min(80,tFov+e.deltaY*0.025));e.preventDefault();
   },{passive:false});
+
+  window.addEventListener('resize',function(){
+    var bf=baseFov(); fov=bf; tFov=bf;
+  });
 
   var hint=document.getElementById('hint'),hintHidden=false;
   function hideHint(){if(hintHidden||!hint)return;hintHidden=true;hint.classList.add('hidden');}
