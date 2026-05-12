@@ -237,7 +237,7 @@ canvas:active{cursor:grabbing;}
     // На узком вертикальном экране (portrait mobile) отдаляем камеру
     if(window.innerWidth<600 && window.innerHeight>window.innerWidth){
       // Чем уже экран, тем больше FOV
-      return Math.min(72, 36 * (600 / window.innerWidth));
+      return Math.min(90, 36 * (600 / window.innerWidth) * 1.5);
     }
     return 36;
   }
