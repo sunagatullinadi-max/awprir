@@ -236,10 +236,8 @@ canvas:active{cursor:grabbing;}
   canvas.addEventListener('touchend',function(){drag=false;tLock=null;});
 
   function baseFov(){
-    // На узком вертикальном экране (portrait mobile) отдаляем камеру
     if(window.innerWidth<600 && window.innerHeight>window.innerWidth){
-      // Чем уже экран, тем больше FOV
-      return Math.min(100, 36 * (600 / window.innerWidth) * 1.5);
+      return Math.min(115, 36 * (600 / window.innerWidth) * 2.0);
     }
     return 36;
   }
