@@ -236,15 +236,23 @@ canvas:active{cursor:grabbing;}
   canvas.addEventListener('touchend',function(){drag=false;tLock=null;});
 
   function baseFov(){
-    if(window.innerWidth<600 && window.innerHeight>window.innerWidth){
-      return Math.min(115, 36 * (600 / window.innerWidth) * 2.0);
+    var aspect = W() / H();
+    // AWP горизонтальная модель, базово подобрана под широкий экран (aspect ~2.5)
+    // Чем уже экран (меньше aspect) — тем больше FOV нужен чтобы влез по горизонтали
+    var base = 36;
+    if(aspect < 1.8){
+      // Портрет или квадрат — увеличиваем FOV пропорционально нехватке ширины
+      base = 36 * (1.8 / aspect);
     }
-    return 36;
+    return Math.min(110, Math.max(30, base));
   }
 
   var fov=baseFov(),tFov=baseFov();
 
   window.addEventListener('resize',function(){
+    renderer.setSize(W(),H());
+    camera.aspect=W()/H();
+    camera.updateProjectionMatrix();
     var bf=baseFov(); fov=bf; tFov=bf;
   });
 
