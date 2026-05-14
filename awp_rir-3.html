@@ -54,9 +54,8 @@ canvas:active{cursor:grabbing;}
 
   var scene=new THREE.Scene();
   var camera=new THREE.PerspectiveCamera(36,W()/H(),0.01,100);
-  // На мобилке блок сжимается по высоте — поднимаем камеру чтобы AWP был по центру
-  var camY = (window.innerWidth < 600) ? 0.0 : 0.2;
-  camera.position.set(0, camY, 5.8);
+  var isMobile = window.innerWidth < 600;
+  camera.position.set(0, 0, isMobile ? 4.0 : 5.8);
   camera.lookAt(0,0,0);
 
   // Освещение — выгодное для металлического скина
@@ -237,12 +236,15 @@ canvas:active{cursor:grabbing;}
 
   function baseFov(){
     var aspect = W() / H();
-    // AWP горизонтальная модель, базово подобрана под широкий экран (aspect ~2.5)
-    // Чем уже экран (меньше aspect) — тем больше FOV нужен чтобы влез по горизонтали
     var base = 36;
+    // Учитываем и ширину и высоту — вписываем по меньшей стороне
     if(aspect < 1.8){
-      // Портрет или квадрат — увеличиваем FOV пропорционально нехватке ширины
       base = 36 * (1.8 / aspect);
+    }
+    // Дополнительно учитываем высоту: если экран высокий — AWP при повороте уходит за нижний край
+    var hRatio = H() / W();
+    if(hRatio > 1){
+      base = base * Math.min(hRatio * 0.85, 1.3);
     }
     return Math.min(110, Math.max(30, base));
   }
