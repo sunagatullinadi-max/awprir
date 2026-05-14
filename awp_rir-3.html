@@ -243,9 +243,6 @@ canvas:active{cursor:grabbing;}
   }
 
   var fov=baseFov(),tFov=baseFov();
-  canvas.addEventListener('wheel',function(e){
-    tFov=Math.max(18,Math.min(80,tFov+e.deltaY*0.025));e.preventDefault();
-  },{passive:false});
 
   window.addEventListener('resize',function(){
     var bf=baseFov(); fov=bf; tFov=bf;
